@@ -1,39 +1,44 @@
-
 # Task Management System
 
 A full-stack application for creating tasks with nested subtasks, assigning required skills, validating task dependencies, and optionally generating task skills using Google Generative AI.
 
-
 ## Features
 
 - Create tasks with unlimited levels of nested subtasks
-- Assign developer to tasks 
+- Assign developer to tasks
 - Assign skills to tasks (case-insensitive matching)
 - Auto-generate skills using Google Gemini
 - PostgreSQL database with Knex migrations
 
-
 ## Tech Stack
 
-**Client:** 
+**Client:**
+
 - React + TypeScript
 - Vite
 
-**Server:** 
+**Server:**
+
 - Node.js
 - Express
 
 **Database:**
+
 - PostgreSQL
 
-**Containerisation** 
+**Containerisation**
+
 - Docker
 - Docker Compose
+
 ## Prerequisites
+
 Ensure you have:
+
 - Node.js ≥ 18
 - Docker & Docker Compose
 - npm or yarn
+
 ## Installation
 
 Clone Repository
@@ -46,6 +51,7 @@ cd Task-Assignment
 Ensure you add the .env file to root directory
 
 List of env names:
+
 ```bash
 POSTGRES_USER
 POSTGRES_PASSWORD
@@ -54,22 +60,26 @@ DATABASE_URL
 VITE_API_BASE_URL
 ```
 
-
 Start Containers (Backend, Frontend, Database)
+
 ```bash
 docker compose up -d
 ```
 
 Access Web Page on
-```http
+
+```bash
 http://localhost:3000/
 ```
+
 ## API Reference
+
 All backend API routes are prefixed with:
 
 ```bash
 /api
 ```
+
 So the actual paths are:
 
 ```bash
@@ -81,12 +91,15 @@ So the actual paths are:
 Every response is in JSON format.
 
 #### #Get Developers
+
 Fetch all developers info and skills.
+
 ```http
-  GET /api/developers
+GET /api/developers
 ```
 
 #### Response
+
 ```json
 [
   {
@@ -98,13 +111,14 @@ Fetch all developers info and skills.
     ]
   }
 ]
-
 ```
 
 #### #Get Tasks
+
 Fetch all tasks including nested subtasks, skills, status, and assignees.
+
 ```http
-  GET /api/tasks
+GET /api/tasks
 ```
 
 #### Response
@@ -128,7 +142,6 @@ Fetch all tasks including nested subtasks, skills, status, and assignees.
     ]
   }
 ]
-
 ```
 
 #### #Create new tasks
@@ -136,37 +149,42 @@ Fetch all tasks including nested subtasks, skills, status, and assignees.
 ```http
 POST /api/tasks
 ```
+
 Create a new task(s) with optional nested subtasks.
 
 #### Request Body
 
 ```json
-[{
-  "title": "Build dashboard",
-  "status": "To-do",
-  "skills": ["React", "UX"],
-  "subtasks": [
-    {
-      "title": "Design wireframes",
-      "status": "To-do",
-      "skills": ["UX"],
-      "subtasks": []
-    }
-  ]
-}]
+[
+  {
+    "title": "Build dashboard",
+    "status": "To-do",
+    "skills": ["React", "UX"],
+    "subtasks": [
+      {
+        "title": "Design wireframes",
+        "status": "To-do",
+        "skills": ["UX"],
+        "subtasks": []
+      }
+    ]
+  }
+]
 ```
 
 #### Response
+
 ```json
 {
-    message: "Tasks created successfully",
-    data: {
-        taskIds: resultArray
-    }
+  "message": "Tasks created successfully",
+  "data": {
+    "taskIds": [1, 2, 3]
+  }
 }
 ```
 
 #### #Update Task status
+
 ```http
 PUT /api/tasks/status
 ```
@@ -184,14 +202,15 @@ PUT /api/tasks/status
 
 ```json
 {
-    message: "Task status updated successfully",
-    data: {
-        taskId:result.id
-    },
+  "message": "Task status updated successfully",
+  "data": {
+    "taskId": 1
+  }
 }
 ```
 
 #### #Update Task assignment
+
 ```http
 PUT /api/tasks/assignment
 ```
@@ -209,14 +228,12 @@ PUT /api/tasks/assignment
 
 ```json
 {
-    message: "Task assignment updated successfully",
-    data: {
-        taskId : result.task_id
-    },
+  "message": "Task assignment updated successfully",
+  "data": {
+    "taskId": 1
+  }
 }
 ```
-
-
 
 ## Dependencies
 
@@ -230,4 +247,3 @@ PUT /api/tasks/assignment
     "pg": "^8.16.3" // postgres library
 }
 ```
-
